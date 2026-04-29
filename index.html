@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>小狗值进度条</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "微软雅黑", sans-serif;
+        }
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f8f9fa;
+        }
+
+        .title {
+            font-size: 28px;
+            color: #ff6b9d;
+            margin-bottom: 20px;
+        }
+
+        .progress-bar {
+            width: 400px;
+            height: 40px;
+            background-color: #e9ecef;
+            border-radius: 20px;
+            overflow: hidden;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0%;
+            background-color: #ff6b9d;
+            transition: width 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+
+        .click-btn {
+            padding: 12px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 25px;
+            background-color: #ff6b9d;
+            color: white;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .click-btn:hover {
+            background-color: #ff4a8a;
+        }
+        .click-btn:active {
+            transform: scale(0.98);
+        }
+    </style>
+</head>
+<body>
+    <h1 class="title">小狗值 🐶</h1>
+    <div class="progress-bar">
+        <div class="progress-fill" id="fill">0%</div>
+    </div>
+    <button class="click-btn" id="addBtn">点击 +1</button>
+
+    <script>
+        const fillElement = document.getElementById('fill');
+        const addBtn = document.getElementById('addBtn');
+
+        // ✅ 核心：从本地存储读取数值（记忆功能）
+        let dogValue = localStorage.getItem('dogValue') 
+            ? Number(localStorage.getItem('dogValue')) 
+            : 0;
+
+        // 初始化页面显示
+        updateProgress();
+
+        // 点击事件
+        addBtn.addEventListener('click', () => {
+            if (dogValue < 100) {
+                dogValue += 1;
+                // ✅ 保存到本地存储
+                localStorage.setItem('dogValue', dogValue);
+                updateProgress();
+            }
+        });
+
+        // 更新进度条和文字
+        function updateProgress() {
+            fillElement.style.width = dogValue + '%';
+            fillElement.textContent = dogValue + '%';
+        }
+    </script>
+</body>
+</html>
